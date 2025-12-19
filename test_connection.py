@@ -91,9 +91,17 @@ class OBDLinkTester:
             return False
     
     def disconnect(self):
-        """Close serial connection."""
+        """Close serial connection gracefully."""
         if self.serial:
+            try:
+                self.serial.reset_input_buffer()
+                self.serial.reset_output_buffer()
+                self.serial.flush()
+                time.sleep(0.2)
+            except Exception:
+                pass
             self.serial.close()
+            self.serial = None
             print("Disconnected")
     
     def send(self, cmd: str, delay: float = 0.3) -> str:
