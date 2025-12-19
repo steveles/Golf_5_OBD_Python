@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "golf-obd"
+version = "0.1.0"
+description = "OBD2 data reader for MK5 Golf GTI with VAG-specific DID support"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Steven" }
+]
+dependencies = [
+    "pyserial>=3.5",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "ruff>=0.1.0",
+]
+bluetooth = [
+    "bleak>=0.21.0",  # For BLE scanning if needed
+]
+
+[project.scripts]
+golf-obd = "golf_obd.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/golf_obd"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
